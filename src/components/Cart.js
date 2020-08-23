@@ -2,8 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./Cart.css";
+import {
+  removeItem,
+  addQuantity,
+  substractQuantity,
+} from "./actions/cartActions";
 
 const Cart = (props) => {
+  const handleRemove = (id) => props.removeItem(id);
+  const handleAddQuantity = (id) => props.addQuantity(id);
+  const handleSubstractQuantity = (id) => props.substractQuantity(id);
+
   const addedItems =
     props.items && props.items.length ? (
       props.items.map((item) => (
@@ -21,14 +30,18 @@ const Cart = (props) => {
               <b>Quantity: {item.quantity}</b>
             </p>
             <div className="add-remove">
-              <Link to="/cart">
+              <Link to="/cart" onClick={() => handleAddQuantity(item.id)}>
                 <i className="material-icons">arrow_drop_up</i>
               </Link>
-              <Link to="/cart">
+              <Link to="/cart" onClick={() => handleSubstractQuantity(item.id)}>
                 <i className="material-icons">arrow_drop_down</i>
               </Link>
             </div>
-            <button className="waves-effect waves-light btn pink remove">
+            <button
+              className="waves-effect waves-light btn pink remove"
+              type="button"
+              onClick={() => handleRemove(item.id)}
+            >
               Remove
             </button>
           </div>
@@ -54,4 +67,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeItem: (id) => dispatch(removeItem(id)),
+    addQuantity: (id) => dispatch(addQuantity(id)),
+    substractQuantity: (id) => dispatch(substractQuantity(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
