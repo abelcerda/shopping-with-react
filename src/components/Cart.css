@@ -1,0 +1,12 @@
+.collection-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-img {
+  margin-right: 50px;
+}
+
+.item-desc {
+  flex: 1;
+}
