@@ -1,9 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./Home.css";
+import { addToCart } from "./actions/cartActions";
 
-const Home = ({ items }) => {
-  const itemList = items.map((item) => {
+const Home = (props) => {
+  const handleClick = (itemId) => {
+    props.addToCart(itemId);
+  };
+
+  const itemList = props.items.map((item) => {
     return (
       <div className="card" key={item.id}>
         <div className="card-image">
@@ -12,6 +17,7 @@ const Home = ({ items }) => {
           <span
             to="/"
             className="btn-floating halfway-fab waves-effect waves-light red"
+            onClick={() => handleClick(item.id)}
           >
             <i className="material-icons">add</i>
           </span>
@@ -38,4 +44,12 @@ const mapStateToProps = (state) => {
   return { items: state.items };
 };
 
-export default connect(mapStateToProps)(Home);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCart: (id) => {
+      dispatch(addToCart(id));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
