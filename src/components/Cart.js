@@ -7,6 +7,7 @@ import {
   addQuantity,
   substractQuantity,
 } from "./actions/cartActions";
+import Recipe from "./Recipe";
 
 const Cart = (props) => {
   const handleRemove = (id) => props.removeItem(id);
@@ -57,6 +58,7 @@ const Cart = (props) => {
         <h5>You have ordered:</h5>
         <ul className="collection">{addedItems}</ul>
       </div>
+      <Recipe />
     </div>
   );
 };
