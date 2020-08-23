@@ -9,6 +9,8 @@ import {
   ADD_QUANTITY,
   SUBSTRACT_QUANTITY,
   REMOVE_ITEM,
+  ADD_SHIPPING,
+  SUB_SHIPPING,
 } from "../actions/cartActions";
 
 const initState = {
@@ -65,6 +67,8 @@ const initState = {
   addedItems: [],
   total: 0,
 };
+
+const SHIPPING_COST = 6;
 
 const cartReducer = (state = initState, action) => {
   switch (action.type) {
@@ -125,6 +129,18 @@ const cartReducer = (state = initState, action) => {
         addedItems: state.addedItems.filter(
           (item) => item.id !== itemToRemove.id
         ),
+      };
+    }
+    case ADD_SHIPPING: {
+      return {
+        ...state,
+        total: state.total + SHIPPING_COST,
+      };
+    }
+    case SUB_SHIPPING: {
+      return {
+        ...state,
+        total: state.total - SHIPPING_COST,
       };
     }
     default:
