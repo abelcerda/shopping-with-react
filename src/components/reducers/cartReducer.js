@@ -4,6 +4,7 @@ import Item3 from "../../images/item3.jpg";
 import Item4 from "../../images/item4.jpg";
 import Item5 from "../../images/item5.jpg";
 import Item6 from "../../images/item6.jpg";
+import { ADD_TO_CART } from "../actions/cartActions";
 
 const initState = {
   items: [
@@ -61,7 +62,31 @@ const initState = {
 };
 
 const cartReducer = (state = initState, action) => {
-  return state;
+  switch (action.type) {
+    case ADD_TO_CART: {
+      const addedItem = state.items.find((item) => item.id === action.id);
+      const existingItem = state.addedItems.find(
+        (item) => item.id === action.id
+      );
+      if (existingItem) {
+        // item is already in the cart
+        addedItem.quantity += 1;
+        return {
+          ...state,
+          total: state.total + addedItem.price,
+        };
+      }
+      // new item in the cart
+      addedItem.quantity = 1;
+      return {
+        ...state,
+        addedItems: [...state.addedItems, addedItem],
+        total: state.total + addedItem.price,
+      };
+    }
+    default:
+      return state;
+  }
 };
 
 export default cartReducer;
